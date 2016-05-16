@@ -43,6 +43,62 @@ namespace Fizzi.Applications.ChallongeVisualization.View
             }
         }
 
+        //True when the score is 2-0, false otherwise. Each of the other four scores are similar.
+        private bool _matchScore2_0;
+        public bool MatchScore2_0
+        {
+            get { return _matchScore2_0; }
+            set
+            {
+                this.RaiseAndSetIfChanged("MatchScore2_0", ref _matchScore2_0, value, PropertyChanged);
+                updateConfirmationMessage();
+            }
+        }
+
+        private bool _matchScore2_1;
+        public bool MatchScore2_1
+        {
+            get { return _matchScore2_1; }
+            set
+            {
+                this.RaiseAndSetIfChanged("MatchScore2_1", ref _matchScore2_1, value, PropertyChanged);
+                updateConfirmationMessage();
+            }
+        }
+
+        private bool _matchScore3_0;
+        public bool MatchScore3_0
+        {
+            get { return _matchScore3_0; }
+            set
+            {
+                this.RaiseAndSetIfChanged("MatchScore3_0", ref _matchScore3_0, value, PropertyChanged);
+                updateConfirmationMessage();
+            }
+        }
+
+        private bool _matchScore3_1;
+        public bool MatchScore3_1
+        {
+            get { return _matchScore3_1; }
+            set
+            {
+                this.RaiseAndSetIfChanged("MatchScore3_1", ref _matchScore3_1, value, PropertyChanged);
+                updateConfirmationMessage();
+            }
+        }
+
+        private bool _matchScore3_2;
+        public bool MatchScore3_2
+        {
+            get { return _matchScore3_2; }
+            set
+            {
+                this.RaiseAndSetIfChanged("MatchScore3_2", ref _matchScore3_2, value, PropertyChanged);
+                updateConfirmationMessage();
+            }
+        }
+
         //True when player 1 wins, False when player 2 wins
         private bool _player1Victory;
         public bool Player1Victory 
@@ -91,51 +147,124 @@ namespace Fizzi.Applications.ChallongeVisualization.View
         private void Player1WinsButton_Click(object sender, RoutedEventArgs e)
         {
             Player1Victory = true;
+            //Swap the scores around so they correspond to the new winner.
+            if (Player2Score > Player1Score)
+            {
+                int score = Player2Score;
+                Player2Score = Player1Score;
+                Player1Score = score;
+            }
         }
 
         private void Player2WinsButton_Click(object sender, RoutedEventArgs e)
         {
             Player1Victory = false;
+            if (Player1Score > Player2Score)
+            {
+                int score = Player2Score;
+                Player2Score = Player1Score;
+                Player1Score = score;
+            }
+        }
+
+        private void MatchScore2_0Button_Click(object sender, RoutedEventArgs e)
+        {
+            //Set the scores according to the currently selected winner.
+            if (Player1Victory)
+            {
+                Player1Score = 2;
+                Player2Score = 0;
+            }
+            else
+            {
+                Player2Score = 2;
+                Player1Score = 0;
+            }
+
+            //Updates the preview score box
+            MatchScore2_0 = true;
+            MatchScore2_1 = false;
+            MatchScore3_0 = false;
+            MatchScore3_1 = false;
+            MatchScore3_2 = false;
+        }
+
+        private void MatchScore2_1Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Player1Victory)
+            {
+                Player1Score = 2;
+                Player2Score = 1;
+            }
+            else
+            {
+                Player2Score = 2;
+                Player1Score = 1;
+            }
+            MatchScore2_0 = false;
+            MatchScore2_1 = true;
+            MatchScore3_0 = false;
+            MatchScore3_1 = false;
+            MatchScore3_2 = false;
+        }
+
+        private void MatchScore3_0Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Player1Victory)
+            {
+                Player1Score = 3;
+                Player2Score = 0;
+            }
+            else
+            {
+                Player2Score = 3;
+                Player1Score = 0;
+            }
+            MatchScore2_0 = false;
+            MatchScore2_1 = false;
+            MatchScore3_0 = true;
+            MatchScore3_1 = false;
+            MatchScore3_2 = false;
+        }
+
+        private void MatchScore3_1Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Player1Victory)
+            {
+                Player1Score = 3;
+                Player2Score = 1;
+            }
+            else
+            {
+                Player2Score = 3;
+                Player1Score = 1;
+            }
+            MatchScore2_0 = false;
+            MatchScore2_1 = false;
+            MatchScore3_0 = false;
+            MatchScore3_1 = true;
+            MatchScore3_2 = false;
+        }
+
+        private void MatchScore3_2Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Player1Victory)
+            {
+                Player1Score = 3;
+                Player2Score = 2;
+            }
+            else
+            {
+                Player2Score = 3;
+                Player1Score = 2;
+            }
+            MatchScore2_0 = false;
+            MatchScore2_1 = false;
+            MatchScore3_0 = false;
+            MatchScore3_1 = false;
+            MatchScore3_2 = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-		private void ScoreScrollWheel(object sender, MouseWheelEventArgs e)
-		{
-			int direction = 1;
-			if (e.Delta < 0) direction = -1;
-			TextBox source = (e.Source as TextBox);
-			adjustScore(source, direction);
-		}
-
-		private void adjustScore(TextBox source, int adjustment)
-		{
-			int value = 0;
-			int.TryParse(source.Text, out value);
-			value = value + adjustment;
-			if (value < 0) value = 0;
-			if (value > 99) value = 99;
-			source.Text = value.ToString();
-		}
-
-		private void p1Left_Click(object sender, RoutedEventArgs e)
-		{
-			adjustScore(player1Score, -1);
-		}
-
-		private void p1Right_Click(object sender, RoutedEventArgs e)
-		{
-			adjustScore(player1Score, 1);
-		}
-
-		private void p2Left_Click(object sender, RoutedEventArgs e)
-		{
-			adjustScore(player2Score, -1);
-		}
-
-		private void p2Right_Click(object sender, RoutedEventArgs e)
-		{
-			adjustScore(player2Score, 1);
-		}
 	}
 }

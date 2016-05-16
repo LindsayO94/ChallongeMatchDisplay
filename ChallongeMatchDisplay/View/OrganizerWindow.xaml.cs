@@ -125,7 +125,7 @@ namespace Fizzi.Applications.ChallongeVisualization.View
                 DataContext = displayMatch,
                 Player1Victory = index == 0
             };
-
+            //Scores are initially set to 1 and 0, before any score buttons are selected.
 			reportScoreWindow.Player1Score = (index == 0) ? 1 : 0;
 			reportScoreWindow.Player2Score = (index == 0) ? 0 : 1;
 
