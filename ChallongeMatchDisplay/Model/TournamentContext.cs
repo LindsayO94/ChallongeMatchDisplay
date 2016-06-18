@@ -15,6 +15,7 @@ namespace Fizzi.Applications.ChallongeVisualization.Model
     class TournamentContext : IDisposable, INotifyPropertyChanged
     {
         private readonly int tournamentId;
+        private readonly string tournamentURL;
 
         public ChallongePortal Portal { get; private set; }
 
@@ -64,10 +65,11 @@ namespace Fizzi.Applications.ChallongeVisualization.Model
             }
         }
 
-        public TournamentContext(ChallongePortal portal, int tournamentId)
+        public TournamentContext(ChallongePortal portal, int tournamentId, string tournamentURL)
         {
             Portal = portal;
             this.tournamentId = tournamentId;
+            this.tournamentURL = tournamentURL;
 
             var queryResults = queryData();
             if (queryResults != null)

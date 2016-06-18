@@ -179,7 +179,7 @@ namespace Fizzi.Applications.ChallongeVisualization.ViewModel
                         if (matchesChangedHandler != null) Context.Tournament.PropertyChanged -= matchesChangedHandler;
 
                         //Create tournament context from selected tournament
-                        Context = new TournamentContext(Portal, SelectedTournament.Id);
+                        Context = new TournamentContext(Portal, SelectedTournament.Id, SelectedTournament.Url);
                         Context.StartSynchronization(TimeSpan.FromMilliseconds(500), 6);
 
                         //Create TO View Model

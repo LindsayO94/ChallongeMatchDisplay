@@ -375,7 +375,7 @@ namespace Fizzi.Applications.ChallongeVisualization.Model
             if (Player1Id != null)
             {
                 var context = OwningContext;
-                context.Portal.ReportMatchWinner(context.Tournament.Id, Id, Player1Id.Value, setCounts);
+                context.Portal.ReportMatchWinner(context.Tournament.Id, Id, Player1Id.Value, context.Tournament.Url, setCounts);
                 context.Refresh();
             }
         }
@@ -385,7 +385,7 @@ namespace Fizzi.Applications.ChallongeVisualization.Model
             if (Player2Id != null)
             {
                 var context = OwningContext;
-                context.Portal.ReportMatchWinner(context.Tournament.Id, Id, Player2Id.Value, setCounts);
+                context.Portal.ReportMatchWinner(context.Tournament.Id, Id, Player2Id.Value, context.Tournament.Url, setCounts);
                 context.Refresh();
             }
         }
